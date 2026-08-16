@@ -1,10 +1,10 @@
 # wrender
 
-wrender (short for "WebView2-render") is a simple commandline tool for Windows 11 that allows to render/convert files/URLs using a headless [Microsoft Edge WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2). WebView2 is based on recent Chromium versions and preinstalled in Windows 11.
+wrender (short for "WebView2-render") is a simple command-line tool for Windows 11 that allows to render/convert files/URLs using a headless [Microsoft Edge WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2). WebView2 is based on recent Chromium versions and preinstalled in Windows 11.
 
-The main purpose of wrender is to render SVGs as (raster-graphics) images, but it can also be used render other inputs, like e.g. HTML or Markdown, see below.
+The main purpose of wrender is to render SVGs as (raster-graphics) images, but it also supports other inputs (like e.g. HTML or Markdown) and outputs (like e.g. PDF), see below.
 
-Since it relies on creating a new browser process, wrender is not particularly fast, but this applies to any headless browser. wrender uses a user profile in %LOCALAPPDATA%\WebView2 which it creates when run for the first time resp. if the profile doesn't exist yet. It always runs in private mode, so without leaving history entries in this profile.
+Since it relies on creating a new browser process, wrender is not particularly fast, but this applies to any headless browser. wrender uses a generic user profile in %LOCALAPPDATA%\WebView2 which it creates when run for the first time resp. if the profile doesn't exist yet. It always runs in private mode, so without leaving history entries in this profile.
 
 ## Usage
 
