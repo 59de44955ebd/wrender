@@ -1067,7 +1067,7 @@ if __name__ == '__main__':
         output_file = None
     else:
 
-        if sys.argv[2].startswith('.') and not '\\' in sys.argv[2] and not '/' in sys.argv[2]:
+        if not input_is_url and sys.argv[2].startswith('.') and not '\\' in sys.argv[2] and not '/' in sys.argv[2]:
             ext_output = sys.argv[2]
             output_file = os.path.abspath(os.path.splitext(os.path.basename(sys.argv[1]))[0] + ext_output)
         else:
