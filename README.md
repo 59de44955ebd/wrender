@@ -8,7 +8,7 @@ Since it relies on creating a new browser process, wrender is not particularly f
 
 ## Usage
 
-```cmd
+```
 $ wrender -h
 wrender v0.1
 
