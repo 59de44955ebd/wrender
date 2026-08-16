@@ -57,7 +57,7 @@ Input:                   Supported Outputs:
 If <output> is only an extension (starting with a dot), e.g. ".pdf", and <input> is not a URL,
 the input filename (without extension) is used and the output is saved in the working directory.
 
-If <output> is PRINTER wrender tries to print with the default printer.
+If <output> is PRINTER, wrender tries to print with the default printer.
 ```
 
 ### Examples
