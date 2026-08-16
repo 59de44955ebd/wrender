@@ -65,8 +65,11 @@ If PRINTER is specified as output, wrender tries to print with the default print
 * Render .html as .png (with default width 1024 px)   
   `$ wrender input.html output.png`
 
-* Render URL as .pdf (landscape page orientation)  
+* Render webpage as .pdf (landscape page orientation)  
   `$ wrender https://google.com/ google.pdf --page-size=210,297`
+
+* Print webpage with system's default printer  
+  `$ wrender https://en.wikipedia.org/wiki/Main_Page PRINTER`
 
 * Render .md (markdown) as .html  
   `$ wrender input.md output.html`

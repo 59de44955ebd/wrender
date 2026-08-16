@@ -264,8 +264,8 @@ def url_to_pdf(url, output_file, page_margins, page_size, wait_ms):
             #
             ########################################
             def _on_printed(error_code, result):
-                if not result:
-                    print(f'Error: {e}', file = sys.stderr)
+                if (output_file and not result) or error_code != 0:
+                    print(f'Error: Printing failed', file = sys.stderr)
                     ctx.exit_code = ERROR_WEBVIEW_CALLBACK
                 if not DEBUG:
                     webview.close()
@@ -286,7 +286,7 @@ def url_to_pdf(url, output_file, page_margins, page_size, wait_ms):
     ########################################
     #
     ########################################
-    def _on_dom_content_loaded(webview):
+    def _on_navigation_completed(webview, args):
         if DEBUG:
             webview.open_dev_tools()
 
@@ -295,7 +295,7 @@ def url_to_pdf(url, output_file, page_margins, page_size, wait_ms):
         else:
             _do_print()
 
-    webview.connect(EVENT.DOM_CONTENT_LOADED, _on_dom_content_loaded)
+    webview.connect(EVENT.NAVIGATION_COMPLETED, _on_navigation_completed)
 
     win.run()
     sys.exit(ctx.exit_code)
@@ -399,7 +399,9 @@ def html_to_pdf(input_file, output_file, page_margins, page_size, wait_ms):
             #
             ########################################
             def _on_printed(error_code, result):
-                ctx.exit_code = 0 if error_code == 0 else ERROR_WEBVIEW_CALLBACK
+                if (output_file and not result) or error_code != 0:
+                    print(f'Error: Printing failed', file = sys.stderr)
+                    ctx.exit_code = ERROR_WEBVIEW_CALLBACK
                 if not DEBUG:
                     webview.close()
                     win.quit()
@@ -419,7 +421,7 @@ def html_to_pdf(input_file, output_file, page_margins, page_size, wait_ms):
     ########################################
     #
     ########################################
-    def _on_dom_content_loaded(webview):
+    def _on_navigation_completed(webview, args):
         if DEBUG:
             webview.open_dev_tools()
 
@@ -443,7 +445,7 @@ def html_to_pdf(input_file, output_file, page_margins, page_size, wait_ms):
         else:
             webview.execute_js_with_result(js, _on_js_result)
 
-    webview.connect(EVENT.DOM_CONTENT_LOADED, _on_dom_content_loaded)
+    webview.connect(EVENT.NAVIGATION_COMPLETED, _on_navigation_completed)
 
     win.run()
     sys.exit(ctx.exit_code)
@@ -540,7 +542,8 @@ def img_to_pdf(input_file, output_file):
             #
             ########################################
             def _on_printed(error_code, result):
-                if error_code != 0:
+                if (output_file and not result) or error_code != 0:
+                    print(f'Error: Printing failed', file = sys.stderr)
                     ctx.exit_code = ERROR_WEBVIEW_CALLBACK
                 if not DEBUG:
                     webview.close()
@@ -757,7 +760,8 @@ def md_to_pdf(input_file, output_file, page_margins, page_size):
             #
             ########################################
             def _on_printed(error_code, result):
-                if error_code != 0:
+                if (output_file and not result) or error_code != 0:
+                    print(f'Error: Printing failed', file = sys.stderr)
                     ctx.exit_code = ERROR_WEBVIEW_CALLBACK
                 if not DEBUG:
                     webview.close()
