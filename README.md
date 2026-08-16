@@ -54,7 +54,10 @@ Input:                   Supported Outputs:
  .webp                   .jpeg .jpg .png .pdf .webp PRINTER
  .xml                    .json
 
-If PRINTER is specified as output, wrender tries to print with the default printer.
+If <output> is only an extension (starting with a dot), e.g. ".pdf", the input filename
+(without extension) is used and the output is saved in the current working directory.
+
+If <output> is PRINTER wrender tries to print with the default printer.
 ```
 
 ### Examples

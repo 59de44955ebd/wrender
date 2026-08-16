@@ -1,6 +1,5 @@
 import base64
 import os
-import signal
 import sys
 
 from ctypes import *
@@ -1015,7 +1014,10 @@ Input:                   Supported Outputs:
  .webp                   .jpeg .jpg .png .pdf .webp PRINTER
  .xml                    .json
 
-If PRINTER is specified as output, {APP_NAME} tries to print with the default printer.''',
+If <output> is only an extension (starting with a dot), e.g. ".pdf", the input's filename
+(without extension) is used and the output is saved in the current working directory.
+
+If <output> is PRINTER {APP_NAME} tries to print with the default printer.''',
         file = sys.stderr
     )
     sys.exit(exit_code)
@@ -1064,11 +1066,16 @@ if __name__ == '__main__':
         ext_output = 'PRINTER'
         output_file = None
     else:
-        ext_output = os.path.splitext(sys.argv[2])[1].lower()
-        if not ext_output:
-            print(f'Error: Output {sys.argv[2]} has no file extension', file = sys.stderr)
-            sys.exit(ERROR_NO_EXT)
-        output_file = os.path.abspath(sys.argv[2])
+
+        if sys.argv[2].startswith('.') and not '\\' in sys.argv[2] and not '/' in sys.argv[2]:
+            ext_output = sys.argv[2]
+            output_file = os.path.abspath(os.path.splitext(os.path.basename(sys.argv[1]))[0] + ext_output)
+        else:
+            ext_output = os.path.splitext(sys.argv[2])[1].lower()
+            if not ext_output:
+                print(f'Error: Output {sys.argv[2]} has no file extension', file = sys.stderr)
+                sys.exit(ERROR_NO_EXT)
+            output_file = os.path.abspath(sys.argv[2])
 
     # --wait=...
     # --width=...
