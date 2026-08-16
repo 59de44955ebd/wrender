@@ -967,7 +967,9 @@ chrome.webview.api.on_data(obj2xml({json_data}));''',
 ########################################
 def print_usage(exit_code):
 
-    print(f'''Usage:
+    print(f'''{APP_NAME} v{APP_VERSION}
+
+Usage:
 
  {APP_NAME} <input> <output> [options...]
  {APP_NAME} -h              Show this help
