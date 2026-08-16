@@ -1,0 +1,8 @@
+/stuff/
+/releases/
+/build/
+/dist/
+/*.spec
+/test_files/
+_backup.rar
+/src/tests.cmd

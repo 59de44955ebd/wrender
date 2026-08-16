@@ -1,0 +1,79 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+REM Config
+set APP_NAME=wrender
+set ICON=NONE
+set DATA_DIR=data
+
+cd /d %~dp0
+
+REM Cleanup dist folder
+rd /s /q "dist\%APP_NAME%" 2>nul
+del "dist\%APP_NAME%-x64-portable.7z" 2>nul
+del "dist\%APP_NAME%-x64-setup.exe" 2>nul
+
+echo.
+echo ****************************************
+echo Running pyinstaller...
+echo ****************************************
+
+set PYTHONPATH=src
+pyinstaller --noupx -n "%APP_NAME%" -i %ICON% -D "src\main.py" --hidden-import webview2 --contents-directory %DATA_DIR%
+
+echo.
+echo ****************************************
+echo Copying resources...
+echo ****************************************
+copy "src\webview2\native\win-amd64\loader.dll" "dist\%APP_NAME%\%DATA_DIR%\"
+copy "src\marked.js" "dist\%APP_NAME%\%DATA_DIR%\"
+copy "src\update.ps1" "dist\%APP_NAME%\%DATA_DIR%\"
+
+echo.
+echo ****************************************
+echo Optimizing dist folder...
+echo ****************************************
+del "dist\%APP_NAME%\%DATA_DIR%\api-ms-win-*.dll"
+del "dist\%APP_NAME%\%DATA_DIR%\libcrypto-3.dll"
+del "dist\%APP_NAME%\%DATA_DIR%\select.pyd
+del "dist\%APP_NAME%\%DATA_DIR%\ucrtbase.dll"
+del "dist\%APP_NAME%\%DATA_DIR%\unicodedata.pyd"
+del "dist\%APP_NAME%\%DATA_DIR%\VCRUNTIME140.dll"
+del "dist\%APP_NAME%\%DATA_DIR%\_bz2.pyd
+del "dist\%APP_NAME%\%DATA_DIR%\_decimal.pyd"
+del "dist\%APP_NAME%\%DATA_DIR%\_hashlib.pyd"
+del "dist\%APP_NAME%\%DATA_DIR%\_lzma.pyd"
+del "dist\%APP_NAME%\%DATA_DIR%\_socket.pyd
+
+::call :create_7z
+::call :create_installer
+
+:done
+echo.
+echo ****************************************
+echo Done.
+echo ****************************************
+echo.
+pause
+
+endlocal
+goto :eof
+
+
+:create_7z
+if not exist "C:\Program Files\7-Zip\" (
+	echo.
+	echo ****************************************
+	echo 7z.exe not found at default location, omitting .7z creation...
+	echo ****************************************
+	exit /B
+)
+echo.
+echo ****************************************
+echo Creating .7z archives...
+echo ****************************************
+cd dist
+set PATH=C:\Program Files\7-Zip;%PATH%
+7z a "%APP_NAME%-x64-portable.7z" "%APP_NAME%\*"
+cd ..
+exit /B
